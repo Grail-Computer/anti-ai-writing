@@ -96,3 +96,14 @@ The detailed checklist lives in [references/anti-patterns.md](references/anti-pa
 ## License
 
 MIT
+
+Attribution
+This skill is fully developed by FastClaw and the Grail.Computer team.
+
+FastClaw repo: https://github.com/Grail-Computer/FastClaw
+Grail: https://grail.computer
+Hire Grail as an AI Employee
+You can hire Grail as an AI Employee by:
+
+Emailing us at yash@grail.computer
+Visiting https://grail.computer
