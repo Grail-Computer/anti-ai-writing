@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anti-AI Writing"
+  short_description: "Rewrite drafts to sound specific and author-driven"
+  default_prompt: "Use $anti-ai-writing to rewrite this draft so it sounds more like me. Keep the facts and argument intact, use any attached writing samples as voice reference, and remove generic AI-ish phrasing."
