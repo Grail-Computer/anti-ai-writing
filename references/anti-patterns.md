@@ -153,3 +153,12 @@ Problem:
 
 Fix:
 - End closer to the operational consequence, unresolved risk, or actual bet.
+
+## 18. Category copy without an operating problem
+
+Problem:
+- The piece sounds competent at the sentence level but still reads like positioning copy because it never touches the real operating problem behind the opinion.
+
+Fix:
+- Find the queue, review step, handoff, escalation path, cleanup burden, or failure mode that made the writer care in the first place.
+- If the source supports it, put that concrete problem near the center of the piece instead of leaving it as an implied backdrop.

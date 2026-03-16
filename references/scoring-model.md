@@ -63,3 +63,11 @@ Good pattern:
 
 Bad pattern:
 - chasing a lower score after the writing has already become flatter or less truthful
+
+## Known failure mode
+
+The scorer can return a low risk score for text that still feels synthetic to a human reader.
+
+The most common case is clean category writing: the draft avoids obvious detector tells, but it still sounds like product positioning or polished essay copy because it lacks a live operating problem, a grounded irritation, or a concrete consequence.
+
+When that happens, do not keep sanding the prose down. Treat the score as "good enough for diagnostics" and fix the real issue in the draft itself.

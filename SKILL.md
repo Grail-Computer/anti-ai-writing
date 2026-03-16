@@ -43,8 +43,8 @@ If the local repository includes `scripts/score_text.py`, run it before rewritin
 Recommended commands:
 
 ```bash
-uv run ./scripts/score_text.py draft.txt --mode thesis
-uv run ./scripts/score_text.py draft.txt --mode thesis --json
+uv run ./scripts/score_text.py --input draft.txt --format summary
+uv run ./scripts/score_text.py --input draft.txt --format json --pretty
 ```
 
 When the user pasted text directly into the prompt, write it to a temporary file first or pipe it over stdin:
@@ -53,7 +53,7 @@ When the user pasted text directly into the prompt, write it to a temporary file
 cat <<'EOF' >/tmp/anti-ai-draft.txt
 ...text...
 EOF
-uv run ./scripts/score_text.py /tmp/anti-ai-draft.txt --mode thesis --json
+uv run ./scripts/score_text.py --input /tmp/anti-ai-draft.txt --format json --pretty
 ```
 
 Use the output as a rewrite planner:
@@ -63,6 +63,7 @@ Use the output as a rewrite planner:
 - stop after 2 to 3 passes or when the score barely improves
 
 Do not optimize the score blindly. If lowering the score makes the prose flatter or less truthful, keep the better prose.
+If the score is already low but the draft still sounds like category copy, stop iterating on the scorer and fix the actual prose problem: missing stake, missing operating detail, missing tension, or overly clean pacing.
 
 For rationale and caveats, load [scoring-model.md](./references/scoring-model.md).
 
@@ -75,6 +76,7 @@ Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 - Start from the user's real observation, memory, objection, or tension when one exists.
 - Do not bury the lead.
 - Prefer a specific opening over a universal opener.
+- If the draft sounds like positioning copy, start closer to the irritation, recurring failure, or operating problem that produced the opinion.
 - Remove paragraphs that only summarize what the next paragraph will say.
 
 #### Pass B: Mechanism and specificity
@@ -125,6 +127,7 @@ For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md)
 - Vary paragraph length and sentence length.
 - Let the writer sound like a person with a stake in the argument, not a neutral explainer.
 - In thesis pieces, trade at least one polished abstraction for a concrete example or operational detail when the source supports it.
+- If the argument is about how companies buy or use software, include the actual operational test whenever the source supports it: the queue, the review path, the escalation point, the cleanup burden, or the failure mode.
 
 ### 8. Keep the writing honest
 
@@ -174,6 +177,7 @@ Choose the lightest mode that solves the request.
 - If a piece stays too abstract because the source material is abstract, say so plainly after the rewrite instead of pretending the problem is solved.
 - If you used the scorer, include the before and after scores briefly after the rewrite.
 - If you used the local scorer, include the before and after scores briefly after the rewrite.
+- Do not present a low score as proof that the piece now sounds good. The score is only a rewrite aid.
 
 ## Reference prompts
 
