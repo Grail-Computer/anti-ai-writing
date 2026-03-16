@@ -36,7 +36,37 @@ When available, anchor the rewrite in the user's own materials: prior posts, not
 - If none exist, do not invent one.
 - Either ask the user for one concrete anchor or preserve the abstraction and note that pure concept writing often reads synthetic even when every sentence is individually good.
 
-### 4. Rewrite in focused passes
+### 4. Run the local scorer when the repo is available
+
+If the local repository includes `scripts/score_text.py`, run it before rewriting and after each significant pass.
+
+Recommended commands:
+
+```bash
+uv run ./scripts/score_text.py draft.txt --mode thesis
+uv run ./scripts/score_text.py draft.txt --mode thesis --json
+```
+
+When the user pasted text directly into the prompt, write it to a temporary file first or pipe it over stdin:
+
+```bash
+cat <<'EOF' >/tmp/anti-ai-draft.txt
+...text...
+EOF
+uv run ./scripts/score_text.py /tmp/anti-ai-draft.txt --mode thesis --json
+```
+
+Use the output as a rewrite planner:
+- focus on the top 3 to 5 findings
+- rewrite against those findings
+- re-score
+- stop after 2 to 3 passes or when the score barely improves
+
+Do not optimize the score blindly. If lowering the score makes the prose flatter or less truthful, keep the better prose.
+
+For rationale and caveats, load [scoring-model.md](./references/scoring-model.md).
+
+### 5. Rewrite in focused passes
 
 Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 
@@ -78,7 +108,7 @@ Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 
 For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md).
 
-### 5. Remove generic AI texture
+### 6. Remove generic AI texture
 
 - Cut broad thesis openers unless they are unusually sharp.
 - Cut balanced contrast lines that sound pre-packaged.
@@ -87,7 +117,7 @@ For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md)
 - Prefer one strong sentence over two sentences that restate each other.
 - Do not let every paragraph resolve into a neat takeaway.
 
-### 6. Add authorial texture
+### 7. Add authorial texture
 
 - Start from the user's real angle, memory, objection, or observation when one exists.
 - Prefer concrete nouns over category labels.
@@ -96,7 +126,7 @@ For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md)
 - Let the writer sound like a person with a stake in the argument, not a neutral explainer.
 - In thesis pieces, trade at least one polished abstraction for a concrete example or operational detail when the source supports it.
 
-### 7. Keep the writing honest
+### 8. Keep the writing honest
 
 - Do not imitate a specific living writer's exact voice.
 - If the user references a writer, extract only high-level traits such as simplicity, first-principles reasoning, directness, or use of examples.
@@ -142,6 +172,8 @@ Choose the lightest mode that solves the request.
 - For articles and essays, preserve the argument while tightening the opening and ending.
 - For X posts and threads, shorten paragraphs, front-load the point, and keep the cadence punchier.
 - If a piece stays too abstract because the source material is abstract, say so plainly after the rewrite instead of pretending the problem is solved.
+- If you used the scorer, include the before and after scores briefly after the rewrite.
+- If you used the local scorer, include the before and after scores briefly after the rewrite.
 
 ## Reference prompts
 

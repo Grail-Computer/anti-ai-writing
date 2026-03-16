@@ -25,8 +25,11 @@ This repository follows the simple root-level layout used by single-skill reposi
 ├── LICENSE
 ├── agents/
 │   └── openai.yaml
+├── scripts/
+│   └── score_text.py
 └── references/
-    └── anti-patterns.md
+    ├── anti-patterns.md
+    └── scoring-model.md
 ```
 
 ## Install with npx skills
@@ -76,17 +79,43 @@ Use $anti-ai-writing on this essay draft.
 Use $anti-ai-writing on this X thread. Keep it punchy and direct.
 ```
 
+## Local scoring loop
+
+The repo includes a local `uv` script that scores explainable synthetic-writing risk signals:
+
+```bash
+uv run ./scripts/score_text.py draft.txt --mode thesis
+uv run ./scripts/score_text.py draft.txt --mode thesis --json
+cat draft.txt | uv run ./scripts/score_text.py --mode thesis
+```
+
+The score is a local heuristic, not a claim that the text is AI-generated. It is designed to surface rewrite targets such as:
+
+- slogan thesis openings
+- rhetorical question batteries
+- over-regular sentence cadence
+- abstraction-heavy paragraphs with too few concrete anchors
+- manifesto-style endings
+
+Use it as a revision loop:
+
+1. score the draft
+2. rewrite against the top findings
+3. score again
+4. stop after 2 to 3 passes or once the gains flatten
+
 ## Writing Model
 
 The skill works in focused passes:
 
 1. Extract voice anchors and non-negotiables.
-2. Fix the lead and structure.
-3. Replace abstract phrasing with mechanisms, objects, and stakes.
-4. Restore voice, rhythm, and authorial stake.
-5. Run a final synthetic-tell pass using the anti-pattern checklist.
+2. Check grounding and run the local scorer when available.
+3. Fix the lead and structure.
+4. Replace abstract phrasing with mechanisms, objects, and stakes.
+5. Restore voice, rhythm, and authorial stake.
+6. Re-score and run a final synthetic-tell pass using the anti-pattern checklist.
 
-The detailed checklist lives in [references/anti-patterns.md](references/anti-patterns.md).
+The detailed checklist lives in [references/anti-patterns.md](references/anti-patterns.md), and the scoring model lives in [references/scoring-model.md](references/scoring-model.md).
 
 ## References
 
