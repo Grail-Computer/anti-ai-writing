@@ -27,6 +27,16 @@ These dimensions are grounded in public detector documentation and stylometry re
     - [Distinguishing ChatGPT-generated and human-written papers through stylometric analysis](https://arxiv.org/abs/2304.05534)
     - [Stylometry overview](https://en.wikipedia.org/wiki/Stylometry)
 
+- **Repeated pattern profiling**
+  - Recent work argues that repetitive phraseology and "slop" patterns can be stronger practical signals than any single banned word list.
+  - Source: [Antislop: Repetitive Pattern Profiling for AI-Generated Text Detection](https://arxiv.org/abs/2510.15061)
+
+- **Lexical diversity and function words**
+  - Recent comparative work highlights differences in lexical diversity and function-word usage between human and LLM-generated writing.
+  - Sources:
+    - [Do LLMs produce texts with "human-like" lexical diversity?](https://arxiv.org/abs/2508.00086)
+    - [Distinguishing ChatGPT-generated and human-written papers through stylometric analysis](https://arxiv.org/abs/2304.05534)
+
 ## What the script scores
 
 The script currently focuses on:
@@ -39,7 +49,10 @@ The script currently focuses on:
 - abstraction-heavy vocabulary without enough grounding
 - scarcity of concrete anchors
 - repeated contrast templates
+- repeated sentence openings
 - trailing `-ing` clause overuse
+- low lexical diversity
+- connective/function-word overload
 - clusters of frequently flagged AI vocabulary
 - manifesto-style endings
 - opinion-heavy writing with little personal or operational anchoring
@@ -75,3 +88,14 @@ When that happens, do not keep sanding the prose down. Treat the score as "good 
 Another common case is mechanical precision: the draft is clear and specific, but the sentences are too uniformly grammatical, list-like, and well-behaved to feel naturally authored.
 
 When that happens, the fix is not more detail. The fix is more texture: one worked example, looser rhythm, less taxonomic listing, and fewer sentences that sound like guided explanation.
+
+## Multi-signal direction
+
+The rule-based scorer should stay explainable and local. For harder tie-breaks between variants, use secondary signals rather than stuffing every idea into one number.
+
+Current direction:
+- primary signal: discrete heuristic findings in `score_text.py`
+- comparison signal: variant matrix in `scripts/compare_variants.py`
+- optional secondary signal: rewrite stability in `scripts/rewrite_probe.py`, inspired by rewrite-based detection work
+
+Keep these signals separate enough that you can disagree with any single one.

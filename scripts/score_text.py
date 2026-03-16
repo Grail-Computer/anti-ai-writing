@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import json
 import re
 import statistics
@@ -318,9 +319,13 @@ PARALLELISM_PATTERNS = [
     r"\bnot only\b",
     r"\bit's not\b",
     r"\bit is not\b",
+    r"\bnot because\b",
     r"\bthe problem is not\b",
     r"\bthe real question is\b",
     r"\bthat is why\b",
+    r"\bthis is where\b",
+    r"\bthat is the part\b",
+    r"\bfor me the\b",
     r"\bthis matters because\b",
     r"\bonce you ask\b",
     r"\bwhat happens when\b",
@@ -516,13 +521,13 @@ def detect_question_battery(text: str, sentences: list[str], metrics: dict[str, 
         severity = clamp(max(max_streak / 5, len(question_sentences) / 6))
         return Finding(
             code="question-battery",
-            label="Rhetorical question battery",
+            label="Checklist-like question battery",
             dimension="structural_symmetry",
             severity=severity,
             weight=1.0,
             count=len(question_sentences),
             examples=[truncate(example) for example in streak_examples[:3] or question_sentences[:3]],
-            suggestion="Keep only the strongest one or two questions. Turn the rest into criteria, prose, or an example.",
+            suggestion="Keep only the strongest question. Turn the rest into prose, a worked example, or explicit criteria.",
         )
     return None
 
@@ -592,15 +597,74 @@ def detect_short_ladder(text: str, sentences: list[str], metrics: dict[str, floa
         severity = clamp(max_streak / 5)
         return Finding(
             code="short-declarative-ladder",
-            label="Back-to-back short declarative sentences",
+            label="Checklist-like sentence ladder",
             dimension="cadence_regularness",
             severity=severity,
             weight=1.0,
             count=max_streak,
             examples=[truncate(example) for example in examples[:3]],
-            suggestion="Break the ladder. Combine some lines and let one sentence carry more texture or detail.",
+            suggestion="Replace serial mini-sentences with one fuller sentence or a worked example. Avoid prose that reads like a checklist.",
         )
     return None
+
+
+def detect_micro_paragraphs(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
+    paragraphs = split_paragraphs(text)
+    if len(paragraphs) < 5:
+        return None
+
+    short_paragraphs = [paragraph for paragraph in paragraphs if len(tokenize_words(paragraph)) <= 10]
+    ratio = safe_div(len(short_paragraphs), len(paragraphs))
+    severity = clamp((ratio - 0.22) / 0.33)
+    if len(short_paragraphs) < 3 or severity <= 0:
+        return None
+
+    return Finding(
+        code="micro-paragraphs",
+        label="Too many micro-paragraph emphasis beats",
+        dimension="cadence_regularness",
+        severity=severity,
+        weight=0.7,
+        count=len(short_paragraphs),
+        examples=[truncate(paragraph) for paragraph in short_paragraphs[:3]],
+        suggestion="Merge some one-line paragraphs back into fuller prose. Too many emphasis beats can feel staged.",
+    )
+
+
+def detect_repeated_openings(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
+    openings: list[tuple[str, str]] = []
+    for sentence in sentences:
+        words = [word.lower() for word in tokenize_words(sentence)]
+        if len(words) < 2:
+            continue
+        opening = " ".join(words[:2])
+        openings.append((opening, sentence))
+
+    if len(openings) < 5:
+        return None
+
+    counts = Counter(opening for opening, _ in openings)
+    repeated = [(opening, count) for opening, count in counts.items() if count >= 3]
+    if not repeated:
+        return None
+
+    repeated.sort(key=lambda item: (-item[1], item[0]))
+    examples: list[str] = []
+    for opening, _count in repeated[:3]:
+        matching = [truncate(sentence) for seen_opening, sentence in openings if seen_opening == opening][:2]
+        examples.extend(matching)
+
+    severity = clamp((repeated[0][1] - 2) / 3)
+    return Finding(
+        code="repeated-openings",
+        label="Repeated sentence openings",
+        dimension="structural_symmetry",
+        severity=severity,
+        weight=0.8,
+        count=sum(count for _, count in repeated),
+        examples=examples[:4],
+        suggestion="Collapse repeated sentence stems unless the repetition carries real force. One fuller sentence is often stronger.",
+    )
 
 
 def detect_abstraction_stack(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
@@ -636,6 +700,46 @@ def detect_abstraction_stack(text: str, sentences: list[str], metrics: dict[str,
         suggestion="Trade at least one polished abstraction for a workflow, failure case, named artifact, or operational detail.",
     )
     return None
+
+
+def detect_low_lexical_diversity(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
+    word_count = int(metrics["word_count"])
+    if word_count < 180:
+        return None
+    ttr = metrics["type_token_ratio"]
+    severity = clamp((0.47 - ttr) / 0.10)
+    if severity <= 0:
+        return None
+    return Finding(
+        code="low-lexical-diversity",
+        label="Lexical variety is too low for the length",
+        dimension="lexical_genericness",
+        severity=severity,
+        weight=0.75,
+        count=word_count,
+        examples=[f"type-token ratio={ttr:.3f} over {word_count} words"],
+        suggestion="Reduce safe repetition. Swap one abstract restatement for fresher concrete nouns, verbs, or a worked example.",
+    )
+
+
+def detect_function_word_load(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
+    word_count = int(metrics["word_count"])
+    if word_count < 180:
+        return None
+    ratio = metrics["function_word_ratio"]
+    severity = clamp((ratio - 0.60) / 0.08)
+    if severity <= 0:
+        return None
+    return Finding(
+        code="function-word-load",
+        label="Too much connective or scaffolding language",
+        dimension="lexical_genericness",
+        severity=severity,
+        weight=0.6,
+        count=word_count,
+        examples=[f"function-word ratio={ratio:.3f}"],
+        suggestion="Trim connective scaffolding and let more of the prose ride on concrete nouns, verbs, and examples.",
+    )
 
 
 def detect_anchor_scarcity(text: str, sentences: list[str], metrics: dict[str, float]) -> Finding | None:
@@ -775,7 +879,11 @@ HEURISTICS = [
     detect_sentence_uniformity,
     detect_paragraph_uniformity,
     detect_short_ladder,
+    detect_micro_paragraphs,
+    detect_repeated_openings,
     detect_abstraction_stack,
+    detect_low_lexical_diversity,
+    detect_function_word_load,
     detect_anchor_scarcity,
     detect_parallelism,
     detect_participial_tails,

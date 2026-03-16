@@ -65,6 +65,34 @@ Use the output as a rewrite planner:
 Do not optimize the score blindly. If lowering the score makes the prose flatter or less truthful, keep the better prose.
 If the score is already low but the draft still sounds like category copy, stop iterating on the scorer and fix the actual prose problem: missing stake, missing operating detail, missing tension, or overly clean pacing.
 
+When comparing several candidate rewrites, use the variant comparer:
+
+```bash
+uv run ./scripts/compare_variants.py /tmp/variant-a.txt /tmp/variant-b.txt /tmp/variant-c.txt
+```
+
+For difficult tie-breaks, use the optional rewrite-stability probe:
+
+```bash
+uv run ./scripts/rewrite_probe.py --input /tmp/variant-a.txt --format summary
+```
+
+Treat rewrite stability as a secondary signal only. It is useful for comparing variants of the same argument, not for proving authorship.
+
+If the user asks for range, diversity, or multiple options, stop polishing one draft and branch instead. Generate 3 to 6 genuinely different variants and compare them with `scripts/hypothesis_panel.py`:
+
+```bash
+uv run ./scripts/hypothesis_panel.py variant-a.txt variant-b.txt variant-c.txt
+```
+
+Use the panel to compare:
+- `risk`: base synthetic-risk score
+- `q`: question / interview-checklist pressure
+- `list`: checklist-style sentence or paragraph pressure
+- `slop`: repeated-frame, low-variety, and scaffolding pressure
+- `texture`: conversational texture
+- `ground`: grounding and worked-example strength
+
 For rationale and caveats, load [scoring-model.md](./references/scoring-model.md).
 
 ### 5. Rewrite in focused passes

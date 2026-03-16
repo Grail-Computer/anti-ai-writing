@@ -26,8 +26,11 @@ This repository follows the simple root-level layout used by single-skill reposi
 ├── agents/
 │   └── openai.yaml
 ├── scripts/
-│   └── score_text.py
+│   ├── score_text.py
+│   ├── compare_variants.py
+│   └── hypothesis_panel.py
 └── references/
+    ├── research-notes.md
     ├── anti-patterns.md
     └── scoring-model.md
 ```
@@ -81,12 +84,12 @@ Use $anti-ai-writing on this X thread. Keep it punchy and direct.
 
 ## Local scoring loop
 
-The repo includes a local `uv` script that scores explainable synthetic-writing risk signals:
+The repo includes a local `uv` scorer that surfaces explainable synthetic-writing risk signals:
 
 ```bash
-uv run ./scripts/score_text.py draft.txt --mode thesis
-uv run ./scripts/score_text.py draft.txt --mode thesis --json
-cat draft.txt | uv run ./scripts/score_text.py --mode thesis
+uv run ./scripts/score_text.py --input draft.txt --format summary
+uv run ./scripts/score_text.py --input draft.txt --format json --pretty
+cat draft.txt | uv run ./scripts/score_text.py --stdin --format summary
 ```
 
 The score is a local heuristic, not a claim that the text is AI-generated. It is designed to surface rewrite targets such as:
@@ -104,6 +107,25 @@ Use it as a revision loop:
 3. score again
 4. stop after 2 to 3 passes or once the gains flatten
 
+## Variant panel
+
+When one rewrite loop is not enough, compare multiple drafts across higher-level hypotheses:
+
+```bash
+uv run ./scripts/hypothesis_panel.py draft-a.txt draft-b.txt draft-c.txt
+```
+
+The panel reports:
+
+- `risk`: base synthetic-risk score from `score_text.py`
+- `q`: question / interview-checklist pressure
+- `list`: checklist-like sentence and paragraph pressure
+- `slop`: repeated-frame, low-variety, and scaffolding pressure
+- `texture`: conversational texture score
+- `ground`: grounding and worked-example score
+
+Use it when you want to explore several writing shapes in parallel instead of polishing one draft blindly.
+
 ## Writing Model
 
 The skill works in focused passes:
@@ -115,7 +137,7 @@ The skill works in focused passes:
 5. Restore voice, rhythm, and authorial stake.
 6. Re-score and run a final synthetic-tell pass using the anti-pattern checklist.
 
-The detailed checklist lives in [references/anti-patterns.md](references/anti-patterns.md), and the scoring model lives in [references/scoring-model.md](references/scoring-model.md).
+The detailed checklist lives in [references/anti-patterns.md](references/anti-patterns.md), the scoring model lives in [references/scoring-model.md](references/scoring-model.md), and the paper-backed notes live in [references/research-notes.md](references/research-notes.md).
 
 ## References
 

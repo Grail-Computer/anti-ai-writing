@@ -11,6 +11,9 @@ The script is **not** an authorship detector. It uses explainable editorial heur
 - [Stylometry](https://en.wikipedia.org/wiki/Stylometry)
 - [A Lightweight Approach to Detection of AI-Generated Texts Using Stylometric Features](https://arxiv.org/abs/2511.21744)
 - [Distinguishing AI-Generated and Human-Written Text Through Psycholinguistic Analysis](https://arxiv.org/abs/2505.01800)
+- [Antislop: Repetitive Pattern Profiling for AI-Generated Text Detection](https://arxiv.org/abs/2510.15061)
+- [Do LLMs produce texts with "human-like" lexical diversity?](https://arxiv.org/abs/2508.00086)
+- [StyleDecipher: Robust and Explainable Detection of LLM-Generated Texts with Stylistic Analysis](https://arxiv.org/abs/2510.12608)
 - [Distinguishing ChatGPT-generated and human-written papers through stylometric analysis](https://arxiv.org/abs/2304.05534)
 - [Can AI-generated text be reliably detected?](https://arxiv.org/abs/2303.11156)
 
@@ -34,6 +37,7 @@ Local proxy:
 - repeated contrast templates
 - stock rhetorical frames
 - clusters of frequently flagged prestige words
+- repeated sentence stems and slop-profile patterns
 
 ### 3. Stylometric and readability features
 
@@ -44,6 +48,16 @@ Local proxy:
 - lexical density and abstract-word density
 - simple readability metrics
 - first-person and function-word ratios as metrics, not verdicts
+- lexical-diversity proxies such as type-token ratio
+
+### 3a. Discrete indicators are more useful than one opaque verdict
+
+Recent explainable detection work points toward panels of interpretable stylistic indicators rather than one magic probability. That fits this repo better than trying to mimic a black-box detector.
+
+Local proxy:
+- keep findings separable by failure mode
+- compare variants across multiple axes
+- treat the blended score as a convenience, not the truth
 
 ### 4. Generic intros and endings create false positives
 
@@ -70,6 +84,16 @@ Local proxy:
 - question batteries
 - repeated “the real question is” / “that is why” / “what happens when” frames
 - short parallel sentence ladders
+- repeated sentence openings and micro-paragraph emphasis beats
+
+### 6a. Slop is often pattern-level, not word-level
+
+Antislop-style work is useful here because it focuses on recurrent patterns and stems, not just vocabulary. A draft can sound synthetic even when every individual word is ordinary.
+
+Local proxy:
+- repeated sentence stems
+- repeated rhetorical scaffolding such as “not because” or “that is why”
+- list-shaped paragraphs that read like staged guidance
 
 ### 7. Thin personal stake
 
@@ -78,9 +102,20 @@ A detector cannot reliably measure “voice,” but readers often perceive categ
 Local proxy:
 - opinion-heavy language combined with low first-person signal and few concrete anchors
 
+### 8. Rewrite stability is a useful secondary signal
+
+Rewrite-based detection work suggests that some texts behave differently under repeated LLM rewrites. This should not replace heuristic scoring, but it is useful as a second opinion when comparing variants of the same argument.
+
+Local proxy:
+- run several Codex rewrite probes with different prompts
+- measure character change, token distance, and structure change
+- treat rewrite stability as a comparison tool, not an authorship claim
+
 ## Important caveat
 
 Detection papers repeatedly show that detector-style systems make mistakes. They can overflag polished prose, formulaic student writing, translated text, and some non-native writing.
+
+Rewrite-based signals also have limits. They depend on the probing model, the probe prompts, and the writer's style.
 
 That is why this repo treats the score as a **revision aid**:
 - use it to identify what feels too clean, too abstract, or too symmetrical
