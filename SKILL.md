@@ -25,7 +25,18 @@ When available, anchor the rewrite in the user's own materials: prior posts, not
 - Preserve first-person details only when the user actually supplied them.
 - If the draft depends on missing facts or examples, ask for them only when necessary. Otherwise rewrite with the available material.
 
-### 3. Rewrite in focused passes
+### 3. Check for grounding before rewriting
+
+- If the piece is a thesis, opinion, or category argument, check whether it contains at least one grounded element:
+  - a real observation
+  - a concrete workflow
+  - an operational detail
+  - a failure case
+  - a named artifact, product, or decision
+- If none exist, do not invent one.
+- Either ask the user for one concrete anchor or preserve the abstraction and note that pure concept writing often reads synthetic even when every sentence is individually good.
+
+### 4. Rewrite in focused passes
 
 Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 
@@ -49,6 +60,8 @@ Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 - Preserve opinions, uncertainty, and mixed feelings when they are present.
 - Vary sentence length and paragraph length.
 - Keep some asymmetry and roughness instead of polishing every sentence to the same cadence.
+- Break up ladders of short, emphatic sentences if too many appear in a row.
+- Convert some rhetorical questions, binaries, or parallel constructions into ordinary prose when they start sounding slogan-like.
 
 #### Pass D: Concision and cleanup
 
@@ -61,26 +74,29 @@ Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 
 - Ask: "What still sounds generic, inflated, symmetrical, or pre-packaged?"
 - Revise the remaining tells without changing the meaning.
+- Ask a second question for thesis pieces: "What feels too clean, too evenly paced, or too abstract to have been written from lived experience?"
 
 For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md).
 
-### 4. Remove generic AI texture
+### 5. Remove generic AI texture
 
 - Cut broad thesis openers unless they are unusually sharp.
 - Cut balanced contrast lines that sound pre-packaged.
 - Remove vague filler such as "in today's world," "this shows that," or "what's interesting is."
 - Replace abstract summary nouns with mechanisms, objects, actions, or stakes.
 - Prefer one strong sentence over two sentences that restate each other.
+- Do not let every paragraph resolve into a neat takeaway.
 
-### 5. Add authorial texture
+### 6. Add authorial texture
 
 - Start from the user's real angle, memory, objection, or observation when one exists.
 - Prefer concrete nouns over category labels.
 - Keep some asymmetry and roughness. Do not smooth every sentence into the same cadence.
 - Vary paragraph length and sentence length.
 - Let the writer sound like a person with a stake in the argument, not a neutral explainer.
+- In thesis pieces, trade at least one polished abstraction for a concrete example or operational detail when the source supports it.
 
-### 6. Keep the writing honest
+### 7. Keep the writing honest
 
 - Do not imitate a specific living writer's exact voice.
 - If the user references a writer, extract only high-level traits such as simplicity, first-principles reasoning, directness, or use of examples.
@@ -99,6 +115,8 @@ For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md)
 - Lead with the "why" before the "what" when the draft is explanatory.
 - Prefer one paragraph per idea.
 - Put the most emphatic or surprising words near the end of the sentence when it helps clarity.
+- Avoid turning the whole piece into a sequence of quotable lines.
+- In category writing, keep one or two lines sharp and let the rest do real explanatory work.
 
 ## Voice sourcing
 
@@ -114,6 +132,7 @@ Choose the lightest mode that solves the request.
 - Light pass: Keep structure, tighten wording, remove obvious AI texture.
 - Standard pass: Rewrite paragraph by paragraph with clearer lead, more specificity, and stronger voice.
 - Deep pass: Rebuild structure, opening, and ending while preserving the same argument and facts.
+- Diagnostic pass: Explain why a draft still reads synthetic and point to the exact high-level patterns causing it.
 
 ## Output shape
 
@@ -122,6 +141,7 @@ Choose the lightest mode that solves the request.
 - If the changes are substantial or the user asks, add a short note after the rewrite explaining what changed.
 - For articles and essays, preserve the argument while tightening the opening and ending.
 - For X posts and threads, shorten paragraphs, front-load the point, and keep the cadence punchier.
+- If a piece stays too abstract because the source material is abstract, say so plainly after the rewrite instead of pretending the problem is solved.
 
 ## Reference prompts
 

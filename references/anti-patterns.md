@@ -107,3 +107,49 @@ Problem:
 
 Fix:
 - End on the sharpest remaining implication, unresolved tension, or concrete takeaway.
+
+## 13. Slogan thesis
+
+Problem:
+- Opens with a binary line that is clean and memorable but reads like positioning copy instead of lived argument.
+
+Examples:
+- "Most companies do not need X. They need Y."
+- "The problem is not A. It is B."
+
+Fix:
+- Keep the thesis if it is genuinely strong, but ground it immediately with a specific reason, example, or observed tension.
+
+## 14. Question battery
+
+Problem:
+- Fires off a run of rhetorical questions as a substitute for concrete development.
+
+Fix:
+- Keep only the strongest one or two questions.
+- Turn the rest into prose, criteria, or an example.
+
+## 15. Overcompressed cadence
+
+Problem:
+- Too many sentences arrive at the same length, same pressure, and same declarative weight.
+
+Fix:
+- Mix short and long sentences.
+- Let some ideas unfold instead of landing each line like a thesis.
+
+## 16. Abstraction stack
+
+Problem:
+- Paragraph after paragraph speaks in categories, roles, and market claims without touching a real workflow, artifact, or moment.
+
+Fix:
+- Add a concrete anchor when the source supports it: a product behavior, review step, escalation path, bug, metric, or operational tradeoff.
+
+## 17. Too-neat manifesto ending
+
+Problem:
+- Ends by cleanly sorting winners and losers or declaring who "builds the category" in a way that sounds polished but generic.
+
+Fix:
+- End closer to the operational consequence, unresolved risk, or actual bet.
