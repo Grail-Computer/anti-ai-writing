@@ -71,3 +71,7 @@ The scorer can return a low risk score for text that still feels synthetic to a 
 The most common case is clean category writing: the draft avoids obvious detector tells, but it still sounds like product positioning or polished essay copy because it lacks a live operating problem, a grounded irritation, or a concrete consequence.
 
 When that happens, do not keep sanding the prose down. Treat the score as "good enough for diagnostics" and fix the real issue in the draft itself.
+
+Another common case is mechanical precision: the draft is clear and specific, but the sentences are too uniformly grammatical, list-like, and well-behaved to feel naturally authored.
+
+When that happens, the fix is not more detail. The fix is more texture: one worked example, looser rhythm, less taxonomic listing, and fewer sentences that sound like guided explanation.

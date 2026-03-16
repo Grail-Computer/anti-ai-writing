@@ -162,3 +162,14 @@ Problem:
 Fix:
 - Find the queue, review step, handoff, escalation path, cleanup burden, or failure mode that made the writer care in the first place.
 - If the source supports it, put that concrete problem near the center of the piece instead of leaving it as an implied backdrop.
+
+## 19. Mechanical precision without texture
+
+Problem:
+- The sentences are clear, specific, and grammatically correct, but they move with the same deliberate pressure and sound assembled rather than spoken.
+- This often shows up as itemized category lists, highly regular declarative sentences, and pristine "practical" phrasing.
+
+Fix:
+- Replace one abstract list with a worked example.
+- Let one or two sentences be looser, more conversational, or mildly asymmetrical.
+- Cut the feeling of a guided walkthrough. The writer should sound like they are making a real point, not presenting a clean framework.

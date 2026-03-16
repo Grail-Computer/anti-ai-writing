@@ -94,6 +94,11 @@ Run these passes in order. Multiple focused passes beat one unfocused rewrite.
 - Keep some asymmetry and roughness instead of polishing every sentence to the same cadence.
 - Break up ladders of short, emphatic sentences if too many appear in a row.
 - Convert some rhetorical questions, binaries, or parallel constructions into ordinary prose when they start sounding slogan-like.
+- If the draft is still reading as "mechanically precise," loosen the texture before you add more precision:
+  - combine one literal sentence with one looser or more colloquial one
+  - replace some itemized category lists with a worked example
+  - allow an occasional fragment, aside, or informal turn of phrase if it fits the user's tone
+  - prefer a thought unfolding over a sequence of perfectly shaped claims
 
 #### Pass D: Concision and cleanup
 
@@ -150,6 +155,8 @@ For a detailed checklist, load [anti-patterns.md](./references/anti-patterns.md)
 - Put the most emphatic or surprising words near the end of the sentence when it helps clarity.
 - Avoid turning the whole piece into a sequence of quotable lines.
 - In category writing, keep one or two lines sharp and let the rest do real explanatory work.
+- If the writing is technically correct but still feels synthetic, the problem may be over-control rather than lack of clarity.
+- In that case, trade some neat precision for conversational movement, uneven emphasis, and one or two sentences that feel spoken rather than assembled.
 
 ## Voice sourcing
 
